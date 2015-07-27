@@ -9,7 +9,7 @@ if(Meteor.isClient) {
 }
 
 if(Meteor.isServer) {
-    Meteor.publish("stories", function () {
+    Meteor.publish('stories', function() {
         return Stories.find();
     });
 
