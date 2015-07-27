@@ -6,9 +6,25 @@
     box-sizing: border-box;
 }
 
-header {
-    color: #fff;
-    text-align: center;
-    padding: 30px;
-    background: #ef4836;
+body {
+    font-family: "Source Sans Pro";
+    font-weight: 300;
+
+    h1 {
+        font-weight: 900;
+    }
+
+    article {
+        margin: 30px;
+
+        img {
+            width: 100%;
+            border-radius: 2px;
+            background: #B3B3B3;
+        }
+
+        .meta {
+            background-color: #fff;
+        }
+    }
 }

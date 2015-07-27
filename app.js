@@ -1,7 +1,6 @@
-Stories = new Mongo.Collection('stories');
+//stories: [{location: 'Calais', url: 'img-1.jpg'},{location: 'Paris', url: 'img-2.jpg'},{location: 'Istanbul', url: 'img-3.jpg'}]
 
 if(Meteor.isClient) {
-    Meteor.subscribe('stories');
     Template.stories.helpers({
         stories: Stories.find()
     });
