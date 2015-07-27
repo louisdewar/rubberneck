@@ -5,10 +5,16 @@ if(Meteor.isClient) {
     Template.stories.helpers({
         stories: Stories.find()
     });
+
 }
 
 if(Meteor.isServer) {
     Meteor.publish("stories", function () {
         return Stories.find();
+    });
+
+
+    Meteor.methods({
+
     });
 }
