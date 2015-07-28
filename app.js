@@ -3,7 +3,20 @@ Stories = new Mongo.Collection('stories');
 if(Meteor.isClient) {
     Meteor.subscribe('stories');
     Template.stories.helpers({
-        stories: Stories.find()
+        stories: function() {
+            var tags = Session.get('current-tags');
+            console.log(tags);
+
+            if(typeof(tags) === undefined || tags === [] || !Match.test(tags, [String])) return Stories.find();
+            var regtags = Array();
+
+            tags.forEach(function(tag) {
+                regtags.push(new RegExp(tag));
+
+            });
+            console.log({tags: {$in: regtags}});
+            return Stories.find({tags: {$in: regtags}});
+        }
     });
 
     Template.story.events({
@@ -88,6 +101,16 @@ if(Meteor.isClient) {
             Session.set(story._id, updateTime());
         }), 1000);
     };
+
+    $(function() {
+        $('#search').on('keyup', function(e) {
+            if(e.keyCode == 13) {
+                var tags = $(this).val().split(' ');
+
+                Session.set('current-tags', tags);
+            }
+        });
+    });
 }
 
 if(Meteor.isServer) {
