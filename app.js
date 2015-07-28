@@ -16,7 +16,7 @@ if(Meteor.isClient) {
             else likes[this._id] = !likes[this._id];
             
             Session.setPersistent('likes', likes);
-            Meteor.call('like', this._id);
+            Meteor.call('like', this._id, likes[this._id]);
         }
     });
     
@@ -59,7 +59,6 @@ if(Meteor.isClient) {
                 
         Session.set(story._id, updateTime());
         
-        
         Meteor.setInterval((function() {
             Session.set(story._id, updateTime());
         }), 1000);
@@ -82,9 +81,11 @@ if(Meteor.isServer) {
             Stories.insert({location: location, url: url, tags: tags, date: date, likes: 0});
 
         },
-        like: function (id) {
+        like: function (id, liked) {
+            var inc = 1;
+            if(!liked) inc = -1;
             Stories.update(id, {$inc: {
-                likes: 1
+                likes: inc
             }});
         }
     });
