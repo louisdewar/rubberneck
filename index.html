@@ -1,11 +1,12 @@
 <head>
     <meta charset="utf-8">
-    <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,900" rel="stylesheet">
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400" rel="stylesheet">
+    <link href="http://fonts.googleapis.com/css?family=Montserrat:400" rel="stylesheet">
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
 
 <body>
-    <h1>#TESTING</h1>
+    <h1><span class="faded">HOME</span>&nbsp;&nbsp;EUROPE</h1>
     {{>stories}}
 </body>
 
@@ -18,8 +19,16 @@
 <template name="story">
     <article>
         <img src="{{url}}">
-        <div class="meta">
-            <p class="location">{{location}}</p>
+        <div class="options">
+            <div class="meta">
+                <p class="location">{{location}}</p>
+                <p class="time">10 minutes ago</p>
+            </div>
+
+            <div class="buttons">
+                <a href="#"><i class="fa fa-heart"></i>&nbsp;10</a>
+                <a href="#"><i class="fa fa-flag"></i></a>
+            </div>
         </div>
     </article>
 </template>

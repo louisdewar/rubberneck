@@ -7,25 +7,64 @@
 }
 
 body {
-    font-family: "Source Sans Pro";
-    font-weight: 300;
+    font-family: "Open Sans";
+    font-weight: 400;
     color: #222;
+    padding: 60px;
 
-    padding: 30px;
+    .faded {
+        color: #bbb;
+    }
 
     h1 {
-        font-weight: 900;
+        font-family: "Montserrat";
+        font-size: 24px;
     }
 
     article {
+        margin-top: 30px;
+
         img {
             width: 100%;
             border-radius: 2px;
             background: #B3B3B3;
         }
 
-        .meta {
-            background-color: #fff;
+        .options {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            .meta {
+                margin-top: 5px;
+
+                .location {
+                    font-size: 16px;
+                    font-weight: 400;
+                }
+
+                .time {
+                    color: #bbb;
+                    font-size: 14px;
+                    font-weight: 400;
+                    margin-top: 2px;
+                }
+            }
+
+            .buttons {
+                font-size: 0;
+
+                a {
+                    display: inline-block;
+                    text-decoration: none;
+                    color: #fff;
+                    font-size: 13px;
+                    background: #bbb;
+                    padding: 5px 10px;
+                    margin: 0 4px;
+                    border-radius: 2px;
+                }
+            }
         }
     }
 }
