@@ -21,7 +21,7 @@ if(Meteor.isServer) {
             var date = new Date();
 
             if (Stories.findOne({url: url})) throw new Meteor.Error('URL matches another one in the database. Is it a duplicate?');
-            Stories.insert({location: location, url: url, tags: tags, date: date});
+            Stories.insert({location: location, url: url, tags: tags, date: date, likes: 0});
             
         },
         like: function (url) {
