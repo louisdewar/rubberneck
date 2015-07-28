@@ -19,6 +19,20 @@ if(Meteor.isClient) {
 
             Session.setPersistent('likes', likes);
             Meteor.call('like', this._id, likes[this._id]);
+        },
+        
+        'click .flag': function(e) {
+            e.preventDefault();
+
+            var flags = Session.get('flags');
+
+            if(flags === undefined) flags = {};
+
+            if(!Match.test(flags[this._id], Boolean)) flags[this._id] = true;
+            else flags[this._id] = !flags[this._id];
+
+            Session.setPersistent('flags', flags);
+            Meteor.call('flag', this._id, flags[this._id]);
         }
     });
 
@@ -27,11 +41,19 @@ if(Meteor.isClient) {
             var time = Session.get(this._id);
             return time;
         },
+        
         liked: function() {
             var likes = Session.get('likes');
             if(likes === undefined || !Match.test(likes[this._id], Boolean)) return false;
 
             return likes[this._id];
+        },
+        
+        flagged: function() {
+            var flags = Session.get('flags');
+            if(flags === undefined || !Match.test(flags[this._id], Boolean)) return false;
+
+            return flags[this._id];
         }
     });
 
@@ -80,7 +102,7 @@ if(Meteor.isServer) {
             var date = new Date();
 
             if (Stories.findOne({url: url})) throw new Meteor.Error('URL matches another one in the database. Is it a duplicate?');
-            Stories.insert({location: location, url: url, tags: tags, date: date, likes: 0});
+            Stories.insert({location: location, url: url, tags: tags, date: date, likes: 0, flags: 0});
 
         },
         like: function (id, liked) {
@@ -88,6 +110,13 @@ if(Meteor.isServer) {
             if(!liked) inc = -1;
             Stories.update(id, {$inc: {
                 likes: inc
+            }});
+        },
+        flag: function(id, flagged) {
+            var inc = 1;
+            if(!flagged) inc = -1;
+            Stories.update(id, {$inc: {
+                flags: inc
             }});
         }
     });
