@@ -106,6 +106,7 @@ if(Meteor.isServer) {
             Stories.insert({location: location, url: url, tags: tags, date: date, likes: 0, flags: 0});
 
         },
+
         like: function (id, liked) {
             var inc = 1;
             if(!liked) inc = -1;
@@ -113,6 +114,7 @@ if(Meteor.isServer) {
                 likes: inc
             }});
         },
+
         flag: function(id, flagged) {
             var inc = 1;
             if(!flagged) inc = -1;
