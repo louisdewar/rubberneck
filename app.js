@@ -5,6 +5,12 @@ if(Meteor.isClient) {
     Template.stories.helpers({
         stories: Stories.find()
     });
+    
+    Template.story.helpers({
+        time: function() {
+            return Math.floor((new Date() - this.date) / (1000 * 60));
+        }
+    });
 }
 
 if(Meteor.isServer) {
