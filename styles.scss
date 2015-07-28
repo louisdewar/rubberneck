@@ -12,6 +12,15 @@ body {
     color: #222;
     padding: 60px;
 
+    header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background: rgba(253, 68, 74, 0.8);
+        padding: 20px;
+    }
+
     .faded {
         color: #bbb;
     }
