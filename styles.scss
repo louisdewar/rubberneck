@@ -32,11 +32,11 @@ body {
         background: $primary;
         color: #fff;
         font-size: 28px;
-        box-shadow: 0 0 4px 0 rgba(0,0,0,0.1);
-        transition: box-shadow 0.05s linear;
+        box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.1s linear;
 
         &.scroll {
-            box-shadow: 0 0 8px 0 rgba(0,0,0,0.4);
+            box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.4);
         }
 
         .title {
