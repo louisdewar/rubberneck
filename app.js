@@ -6,6 +6,12 @@ if(Meteor.isClient) {
         stories: Stories.find()
     });
 
+    Template.story.events({
+        'click .like': function(event) {
+            Meteor.call('like', this.url);
+        }
+    });
+    
     Template.story.helpers({
         time: function() {
             Session.set(this._id, Math.floor((new Date() - this.date) / (1000 * 60)));
