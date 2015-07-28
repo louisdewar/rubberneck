@@ -20,7 +20,7 @@ if(Meteor.isClient) {
             Session.setPersistent('likes', likes);
             Meteor.call('like', this._id, likes[this._id]);
         },
-        
+
         'click .flag': function(e) {
             e.preventDefault();
 
@@ -41,14 +41,14 @@ if(Meteor.isClient) {
             var time = Session.get(this._id);
             return time;
         },
-        
+
         liked: function() {
             var likes = Session.get('likes');
             if(likes === undefined || !Match.test(likes[this._id], Boolean)) return false;
 
             return likes[this._id];
         },
-        
+
         flagged: function() {
             var flags = Session.get('flags');
             if(flags === undefined || !Match.test(flags[this._id], Boolean)) return false;
@@ -63,8 +63,9 @@ if(Meteor.isClient) {
         var updateTime = function() {
             var time;
             var seconds = Math.floor((new Date() - story.date) / (1000));
-
-            if(seconds < 60) {
+            if(seconds < 10) {
+                return 'Just now!';
+            } else if(seconds < 60) {
                 time = seconds + ' seconds';
             } else if(seconds < 60 * 60) {
                 time = Math.floor(seconds/60) + ' minutes';
@@ -78,7 +79,7 @@ if(Meteor.isClient) {
 
             if(/^1\s/.test(time)) time = time.slice(0, -1);
 
-            return time;
+            return time + ' ago';
         }
 
         Session.set(story._id, updateTime());
