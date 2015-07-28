@@ -1,15 +1,15 @@
 <head>
     <meta charset="utf-8">
-    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400" rel="stylesheet">
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet">
     <link href="http://fonts.googleapis.com/css?family=Montserrat:400" rel="stylesheet">
     <link href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
 </head>
 
 <body>
     <header>
-        <i class="icon ion-navicon"></i>
+        <div class="title"><i class="icon ion-navicon"></i></div>
+        <input type="text">
     </header>
-    <h1><span class="faded">HOME</span>&nbsp;&nbsp;EUROPE</h1>
     {{>stories}}
 </body>
 
@@ -29,7 +29,7 @@
             </div>
 
             <div class="buttons">
-                <a href="#" class="like"><i class="icon ion-heart"></i>&nbsp;&nbsp;{{likes}}</a>
+                <a href="#" class="like"><i class="icon ion-heart"></i>&nbsp;{{likes}}</a>
                 <a href="#" class="flag"><i class="icon ion-flag"></i></a>
             </div>
         </div>
