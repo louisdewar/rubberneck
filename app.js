@@ -12,7 +12,6 @@ if(Meteor.isServer) {
         return Stories.find();
     });
 
-
     Meteor.methods({
         upload: function (location, url, tags) {
             check(location, String);
@@ -22,7 +21,7 @@ if(Meteor.isServer) {
 
             if (Stories.findOne({url: url})) throw new Meteor.Error('URL matches another one in the database. Is it a duplicate?');
             Stories.insert({location: location, url: url, tags: tags, date: date});
-            
+
         },
         like: function (url) {
             Stories.update({url: url}, {$inc: {
@@ -30,6 +29,7 @@ if(Meteor.isServer) {
             }});
         }
     });
+
     Meteor.startup(function() {
         Meteor.call('upload', 'Calais', 'img-1.jpg', ['eurotunnel', 'tunnelcrossing'], function(error) {console.log(error)});
         Meteor.call('upload', 'Paris', 'img-2.jpg', ['tourdefrance', 'cycling', 'skyteam', 'win'], function(error) {});
