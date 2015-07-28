@@ -8,7 +8,10 @@
 <body>
     <header>
         <div class="title"><i class="icon ion-navicon"></i></div>
-        <input type="text">
+        <div class="search">
+            <i class="icon ion-search"></i>
+            <input type="text" placeholder="Search">
+        </div>
     </header>
     {{>stories}}
 </body>
@@ -29,7 +32,7 @@
             </div>
 
             <div class="buttons">
-                <a href="#" class="like"><i class="icon ion-heart"></i>&nbsp;{{likes}}</a>
+                <a href="#" class="like"><i class="icon ion-heart"></i>&nbsp;&nbsp;{{likes}}</a>
                 <a href="#" class="flag"><i class="icon ion-flag"></i></a>
             </div>
         </div>
