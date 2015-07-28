@@ -5,16 +5,17 @@ if(Meteor.isClient) {
     Template.stories.helpers({
         stories: Stories.find()
     });
-    
+
     Template.story.helpers({
         time: function() {
+            Session.set(this._id, Math.floor((new Date() - this.date) / (1000 * 60)));
             return Session.get(this._id);
         }
     });
-    
+
     Template.story.created = function() {
         var story = this.data;
-        
+
         Meteor.setInterval((function() {
             Session.set(story._id, Math.floor((new Date() - story.date) / (1000 * 60)));
         }), 1000);
