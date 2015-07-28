@@ -8,22 +8,60 @@ if(Meteor.isClient) {
 
     Template.story.events({
         'click .like': function(event) {
-            Meteor.call('like', this.url);
+            var likes = Session.get('likes');
+            
+            if(likes === undefined) likes = {};
+            
+            if(!Match.test(likes[this._id], Boolean)) likes[this._id] = true;
+            else likes[this._id] = !likes[this._id];
+            
+            Session.setPersistent('likes', likes);
+            Meteor.call('like', this._id);
         }
     });
     
     Template.story.helpers({
         time: function() {
-            Session.set(this._id, Math.floor((new Date() - this.date) / (1000 * 60)));
-            return Session.get(this._id);
+            var time = Session.get(this._id);
+            return time;
+        },
+        liked: function() {
+            var likes = Session.get('likes');
+            if(likes === undefined || !Match.test(likes[this._id], Boolean)) return false;
+            
+            return likes[this._id];
         }
     });
 
     Template.story.created = function() {
         var story = this.data;
+        
+        var updateTime = function() {
+            var time;
+            var seconds = Math.floor((new Date() - story.date) / (1000));
+            
+            if(seconds < 60) {
+                time = seconds + ' seconds';
+            } else if(seconds < 60 * 60) {
+                time = Math.floor(seconds/60) + ' minutes';
+            } else if(seconds < 60 * 60 * 24) {
+                time = Math.floor(seconds/(60 * 60)) + ' hours';
+            } else if(seconds < 60 * 60 * 24 * 7) {
+                time = Math.floor(seconds/(60 * 60 * 24)) + ' days';
+            } else {
+                time = Math.floor(seconds/(60 * 60 * 24 * 7)) + ' weeks';
+            }
 
+            if(/^1\s/.test(time)) time = time.slice(0, -1);
+            
+            return time;
+        }
+                
+        Session.set(story._id, updateTime());
+        
+        
         Meteor.setInterval((function() {
-            Session.set(story._id, Math.floor((new Date() - story.date) / (1000 * 60)));
+            Session.set(story._id, updateTime());
         }), 1000);
     };
 }
@@ -44,8 +82,8 @@ if(Meteor.isServer) {
             Stories.insert({location: location, url: url, tags: tags, date: date, likes: 0});
 
         },
-        like: function (url) {
-            Stories.update({url: url}, {$inc: {
+        like: function (id) {
+            Stories.update(id, {$inc: {
                 likes: 1
             }});
         }
