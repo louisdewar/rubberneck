@@ -7,19 +7,21 @@ if(Meteor.isClient) {
     });
 
     Template.story.events({
-        'click .like': function(event) {
+        'click .like': function(e) {
+            e.preventDefault();
+
             var likes = Session.get('likes');
-            
+
             if(likes === undefined) likes = {};
-            
+
             if(!Match.test(likes[this._id], Boolean)) likes[this._id] = true;
             else likes[this._id] = !likes[this._id];
-            
+
             Session.setPersistent('likes', likes);
             Meteor.call('like', this._id);
         }
     });
-    
+
     Template.story.helpers({
         time: function() {
             var time = Session.get(this._id);
@@ -28,18 +30,18 @@ if(Meteor.isClient) {
         liked: function() {
             var likes = Session.get('likes');
             if(likes === undefined || !Match.test(likes[this._id], Boolean)) return false;
-            
+
             return likes[this._id];
         }
     });
 
     Template.story.created = function() {
         var story = this.data;
-        
+
         var updateTime = function() {
             var time;
             var seconds = Math.floor((new Date() - story.date) / (1000));
-            
+
             if(seconds < 60) {
                 time = seconds + ' seconds';
             } else if(seconds < 60 * 60) {
@@ -53,13 +55,13 @@ if(Meteor.isClient) {
             }
 
             if(/^1\s/.test(time)) time = time.slice(0, -1);
-            
+
             return time;
         }
-                
+
         Session.set(story._id, updateTime());
-        
-        
+
+
         Meteor.setInterval((function() {
             Session.set(story._id, updateTime());
         }), 1000);
