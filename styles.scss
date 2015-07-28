@@ -1,3 +1,9 @@
+$primary: #e95353;
+$white: #fff;
+$light: #f2f0eb;
+$semi-light: #dddbd6;
+$dark: #b3b3b3;
+
 * {
     padding: 0;
     margin: 0;
@@ -10,54 +16,61 @@ body {
     font-family: "Open Sans";
     font-weight: 400;
     color: #222;
-    padding: 60px;
+    padding: 30px;
+    background: $light;
+    padding-top: 116px;
 
     header {
         position: fixed;
         top: 0;
         left: 0;
         right: 0;
-        background: rgba(253, 68, 74, 0.8);
-        padding: 20px;
+        background: $primary;
         color: #fff;
         font-size: 28px;
-    }
+        box-shadow: 0 0 8px 0 rgba(0,0,0,0.4);
 
-    .faded {
-        color: #bbb;
-    }
+        .title {
+            padding: 10px 30px;
+        }
 
-    h1 {
-        margin-top: 48px;
-        font-family: "Montserrat";
-        font-size: 24px;
+        input {
+            display: block;
+            width: 100%;
+            padding: 20px 30px;
+            background: $white;
+            font-family: "Open Sans";
+            color: $dark;
+        }
     }
 
     article {
         margin-top: 30px;
+        background: $white;
+        border-radius: 2px;
+        overflow: hidden;
+        border-bottom: 2px solid $semi-light;
 
         img {
             width: 100%;
-            background: #B3B3B3;
         }
 
         .options {
             display: flex;
             align-items: center;
             justify-content: space-between;
+            padding: 10px 20px;
 
             .meta {
-                margin-top: 5px;
-
                 .location {
                     font-size: 14px;
-                    font-weight: 400;
+                    font-weight: 600;
+                    color: $primary;
                 }
 
                 .time {
-                    color: #bbb;
+                    color: $dark;
                     font-size: 12px;
-                    font-weight: 400;
                     margin-top: 2px;
                 }
             }
@@ -68,11 +81,9 @@ body {
                 a {
                     display: inline-block;
                     text-decoration: none;
-                    color: #fff;
-                    font-size: 12px;
-                    background: #bbb;
-                    padding: 5px 10px;
-                    margin: 0 4px;
+                    color: $dark;
+                    font-size: 14px;
+                    margin-left: 15px;
                 }
             }
         }
