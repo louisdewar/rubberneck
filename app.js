@@ -14,8 +14,6 @@ if(Meteor.isClient) {
                 regtags.push(new RegExp(tag, 'i'));
             });
 
-            console.log(regtags);
-
             return Stories.find({$or: [{tags: {$in: regtags}}, {location: {$in: regtags}}]});
         }
     });
@@ -104,7 +102,7 @@ if(Meteor.isClient) {
     Template.search.events({
         'keyup input': function(e) {
             var tags = e.target.value.split(' ');
-            Session.set('tags', tags);
+            Session.setPersistent('tags', tags);
         }
     });
 
@@ -113,12 +111,22 @@ if(Meteor.isClient) {
             if($(window).scrollTop() > 0) $('header').addClass('scroll');
             else $('header').removeClass('scroll');
         });
+
+        if(Match.test(Session.get('tags'), [String])) {
+            console.log('Is array of Strings');
+            var search = '';
+            Session.get('tags').forEach(function(entry) {
+                search += entry + ' ';
+            });
+            search = search.slice(0, -1);
+            $('#search').val(search);
+        }
     });
 }
 
 if(Meteor.isServer) {
     Meteor.publish('stories', function () {
-        return Stories.find();
+        return Stories.find({visable: {$ne: false}}, {fields: {flags: 0, visable: 0}});
     });
 
     Meteor.methods({
@@ -147,11 +155,18 @@ if(Meteor.isServer) {
             Stories.update(id, {$inc: {
                 flags: inc
             }});
+
+            var doc = Stories.findOne(id);
+            if(doc.flags >= 5 && doc.flags > doc.likes) {
+                Stories.update(id, {$set: {
+                    visable: false
+                }});
+            }
         }
     });
 
     Meteor.startup(function() {
-        Meteor.call('upload', 'Calais', 'img-1.jpg', ['eurotunnel', 'tunnelcrossing'], function(error) {console.log(error)});
+        Meteor.call('upload', 'Calais', 'img-1.jpg', ['eurotunnel', 'tunnelcrossing'], function(error) {});
         Meteor.call('upload', 'Paris', 'img-2.jpg', ['tourdefrance', 'cycling', 'skyteam', 'win'], function(error) {});
         Meteor.call('upload', 'Istanbul', 'img-3.jpg', ['coffin', 'death'], function(error) {});
     });
