@@ -125,7 +125,7 @@ if(Meteor.isServer) {
 
     Meteor.methods({
         upload: function (location, url, tags) {
-            check(location, String);
+            check(location, {longitude: Number, latitude: Number, country: String, city: String});
             check(url, String);
             check(tags, Match.Optional([String]));
             var date = new Date();
