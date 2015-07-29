@@ -141,6 +141,20 @@ if(Meteor.isClient) {
         }), 1000);
     };
 
+    Template.search.helpers({
+        search: function() {
+            if(Match.test(Session.get('tags'), undefined)) return '';
+            return Session.get('tags').join(' ');
+        }
+    });
+
+    Template.search.events({
+        'keyup input': function(e) {
+            var tags = e.target.value.split(' ');
+            Session.setPersistent('tags', tags);
+        }
+    });
+
     Meteor.startup(function() {
         $(window).scroll(function() {
             if($(window).scrollTop() > 0) $('header').addClass('scroll');
