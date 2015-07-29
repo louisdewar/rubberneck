@@ -160,11 +160,11 @@ if(Meteor.isServer) {
     });
 
     Meteor.startup(function() {
-        Meteor.call('upload', 'Calais', 'img-1.jpg', ['eurotunnel', 'tunnelcrossing'], function(error) {});
-        Meteor.call('upload', 'Paris', 'img-2.jpg', ['tourdefrance', 'cycling', 'skyteam', 'win'], function(error) {});
-        Meteor.call('upload', 'Istanbul', 'img-3.jpg', ['coffin', 'death'], function(error) {});
+        Meteor.call('upload', {latitude: 0, longitude: 0, country: 'France', city: 'Calais'}, 'img-1.jpg', ['eurotunnel', 'tunnelcrossing'], function(error) {});
+        Meteor.call('upload', {latitude: 0, longitude: 0, country: 'France', city: 'Paris'}, 'img-2.jpg', ['tourdefrance', 'cycling', 'skyteam', 'win'], function(error) {});
+        Meteor.call('upload', {latitude: 0, longitude: 0, country: 'Turkey', city: 'Istanbul'}, 'img-3.jpg', ['coffin', 'death'], function(error) {});
 
-        var geo = new GeoCoder({geocoderProvider: "google"});
+        var geo = new GeoCoder({geocoderProvider: 'google'});
         var result = geo.reverse(51.4879067, -0.1234005);
         console.log(result);
     });
