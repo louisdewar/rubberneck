@@ -3,6 +3,49 @@ Stories = new Mongo.Collection('stories');
 if(Meteor.isClient) {
     Meteor.subscribe('stories');
 
+    Template.header.helpers({
+        search: function() {
+            if(Session.get('tags')) return Session.get('tags').join(' ');
+            return '';
+        },
+
+        local: function() {
+            if(Session.get('local')) return Session.get('local');
+            return false;
+        }
+    });
+
+    Template.header.events({
+        'keyup input': function(e) {
+            var tags = e.target.value.split(' ');
+            Session.setPersistent('tags', tags);
+        },
+
+        'click .locate': function(e) {
+            e.preventDefault();
+            Session.set('local', Session.get('local') ? false : true);
+        },
+
+        'click .add': function(e) {
+            e.preventDefault();
+            Session.set('dropdown', true);
+        }
+    });
+
+    Template.upload.helpers({
+        dropdown: function() {
+            if(Session.get('dropdown')) return Session.get('dropdown');
+            return false;
+        }
+    });
+
+    Template.upload.events({
+        'click .icon': function(e) {
+            e.preventDefault();
+            Session.set('dropdown', false);
+        }
+    });
+
     Template.stories.helpers({
         stories: function() {
             var tags = Session.get('tags');
@@ -50,14 +93,13 @@ if(Meteor.isClient) {
 
     Template.story.helpers({
         time: function() {
-            var time = Session.get(this._id);
-            return time;
+            return Session.get(this._id);
         },
 
         liked: function() {
             var likes = Session.get('likes');
-            if(likes === undefined || !Match.test(likes[this._id], Boolean)) return false;
 
+            if(likes === undefined || !Match.test(likes[this._id], Boolean)) return false;
             return likes[this._id];
         },
 
@@ -98,17 +140,6 @@ if(Meteor.isClient) {
             Session.set(story._id, update());
         }), 1000);
     };
-
-    Template.search.helpers({
-        search: Session.get('tags').join(' ')
-    });
-
-    Template.search.events({
-        'keyup input': function(e) {
-            var tags = e.target.value.split(' ');
-            Session.setPersistent('tags', tags);
-        }
-    });
 
     Meteor.startup(function() {
         $(window).scroll(function() {
@@ -164,8 +195,8 @@ if(Meteor.isServer) {
         Meteor.call('upload', {latitude: 0, longitude: 0, country: 'France', city: 'Paris'}, 'img-2.jpg', ['tourdefrance', 'cycling', 'skyteam', 'win'], function(error) {});
         Meteor.call('upload', {latitude: 0, longitude: 0, country: 'Turkey', city: 'Istanbul'}, 'img-3.jpg', ['coffin', 'death'], function(error) {});
 
-        var geo = new GeoCoder({geocoderProvider: 'google'});
+        /*var geo = new GeoCoder({geocoderProvider: 'google'});
         var result = geo.reverse(51.4879067, -0.1234005);
-        console.log(result);
+        console.log(result);*/
     });
 }

@@ -1,11 +1,18 @@
 $primary: #e95353;
+$secondary: #d84545;
+$tertiary: #c54040;
 $white: #fff;
 $light: #f2f0eb;
 $semi-light: #dddbd6;
 $dark: #b3b3b3;
 
-::-webkit-input-placeholder {
+input::-webkit-input-placeholder {
     color: $semi-light;
+}
+
+textarea::-webkit-input-placeholder {
+    color: $white;
+    font-weight: 300;
 }
 
 * {
@@ -24,7 +31,7 @@ body {
     color: #222;
     padding: 20px;
     background: $light;
-    padding-top: 116px;
+    padding-top: 134px;
 
     header {
         position: fixed;
@@ -42,9 +49,29 @@ body {
         }
 
         .title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             padding: 20px;
-            font-weight: 600;
-            font-size: 15px;
+
+            h1 {
+                font-weight: 600;
+                font-size: 15px;
+            }
+
+            .icons {
+                a {
+                    text-decoration: none;
+                    color: $white;
+                    font-size: 28px;
+                    margin-left: 20px;
+                    transition: color 0.1s linear;
+
+                    &.disabled {
+                        color: $tertiary;
+                    }
+                }
+            }
         }
 
         .search {
@@ -70,13 +97,114 @@ body {
         }
     }
 
+    form {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background: $primary;
+        color: $white;
+        padding: 25px 20px;
+        box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.4);
+        transition: transform 0.5s ease;
+        transform: translate3d(0, -421px, 0);
+
+        &.down {
+            transform: translate3d(0, 0, 0);
+        }
+
+        a {
+            display: inline-block;
+            text-decoration: none;
+            color: $white;
+
+            &.icon {
+                float: right;
+                font-size: 20px;
+            }
+
+            &.image {
+                margin-top: 20px;
+                font-weight: 600;
+                font-size: 0;
+                background: $secondary;
+                color: $white;
+                padding: 60px 0;
+                border-radius: 2px;
+                width: 100%;
+                text-align: center;
+                border-bottom: 2px solid $tertiary;
+
+                .icon {
+                    display: inline-block;
+                    font-size: 20px;
+                    vertical-align: middle;
+                    margin-right: 10px;
+                }
+
+                p {
+                    display: inline-block;
+                    font-size: 12px;
+                    vertical-align: middle;
+                }
+            }
+
+            &.button {
+                margin-top: 20px;
+                font-weight: 600;
+                font-size: 0;
+                background: $white;
+                color: $primary;
+                padding: 10px 0;
+                border-radius: 2px;
+                width: 100%;
+                text-align: center;
+                border-bottom: 2px solid $tertiary;
+
+                .icon {
+                    display: inline-block;
+                    font-size: 20px;
+                    vertical-align: middle;
+                    margin-right: 10px;
+                }
+
+                p {
+                    display: inline-block;
+                    font-size: 12px;
+                    vertical-align: middle;
+                }
+            }
+        }
+
+        h1 {
+            font-size: 26px;
+            font-weight: 300;
+            margin-bottom: 10px;
+        }
+
+        textarea {
+            display: block;
+            font-family: "Open Sans";
+            font-weight: 600;
+            font-size: 12px;
+            background: $secondary;
+            color: $white;
+            margin-top: 20px;
+            padding: 20px;
+            width: 100%;
+            resize: none;
+            border-radius: 2px;
+            border-bottom: 2px solid $tertiary;
+        }
+    }
+
     article {
         margin-top: 20px;
         background: $white;
         border-radius: 2px;
         overflow: hidden;
         border-bottom: 2px solid $semi-light;
-        box-shadow: 0 0 4px 0 rgba(0,0,0,0.1);
+        box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.1);
 
         img {
             width: 100%;

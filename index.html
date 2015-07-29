@@ -1,24 +1,41 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet">
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600" rel="stylesheet">
     <link href="http://fonts.googleapis.com/css?family=Montserrat:400" rel="stylesheet">
     <link href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
 </head>
 
 <body>
-    <header>
-        <div class="title">Rubberneck</div>
-        {{>search}}
-    </header>
+    {{>header}}
+    {{>upload}}
     {{>stories}}
 </body>
 
-<template name="search">
-    <div class="search">
-        <i class="icon ion-search"></i>
-        <input type="text" placeholder="Search" value="{{search}}">
-    </div>
+<template name="header">
+    <header>
+        <div class="title">
+            <h1>Rubberneck</h1>
+            <div class="icons">
+                <a href="#" class="locate {{#unless local}}disabled{{/unless}}"><i class="icon ion-android-locate"></i></a>
+                <a href="#" class="add"><i class="icon ion-camera"></i></a>
+            </div>
+        </div>
+        <div class="search">
+            <i class="icon ion-search"></i>
+            <input type="text" placeholder="Search" value="{{search}}">
+        </div>
+    </header>
+</template>
+
+<template name="upload">
+    <form class="{{#if dropdown}}down{{/if}}">
+        <a href="#" class="icon"><i class="icon ion-close"></i></a>
+        <h1>Add story</h1>
+        <a href="#" class="image"><i class="icon ion-camera"></i><p>Take picture</p></a>
+        <textarea placeholder="Tags, seperated by spaces" rows="1"></textarea>
+        <a href="#" class="button"><i class="icon ion-upload"></i><p>Upload</p></a>
+    </form>
 </template>
 
 <template name="stories">
