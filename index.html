@@ -9,13 +9,17 @@
 <body>
     <header>
         <div class="title"><i class="icon ion-navicon"></i></div>
-        <div class="search">
-            <i class="icon ion-search"></i>
-            <input type="text" placeholder="Search" id="search">
-        </div>
+        {{>search}}
     </header>
     {{>stories}}
 </body>
+
+<template name="search">
+    <div class="search">
+        <i class="icon ion-search"></i>
+        <input type="text" placeholder="Search">
+    </div>
+</template>
 
 <template name="stories">
     {{#each stories}}

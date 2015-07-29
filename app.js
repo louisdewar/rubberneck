@@ -2,20 +2,21 @@ Stories = new Mongo.Collection('stories');
 
 if(Meteor.isClient) {
     Meteor.subscribe('stories');
+
     Template.stories.helpers({
         stories: function() {
-            var tags = Session.get('current-tags');
-            console.log(tags);
+            var tags = Session.get('tags');
 
             if(typeof(tags) === undefined || tags === [] || !Match.test(tags, [String])) return Stories.find();
-            var regtags = Array();
+            var regtags = [];
 
             tags.forEach(function(tag) {
-                regtags.push(new RegExp(tag));
-
+                regtags.push(new RegExp(tag, 'i'));
             });
-            console.log({tags: {$in: regtags}});
-            return Stories.find({tags: {$in: regtags}});
+
+            console.log(regtags);
+
+            return Stories.find({$or: [{tags: {$in: regtags}}, {location: {$in: regtags}}]});
         }
     });
 
@@ -64,8 +65,8 @@ if(Meteor.isClient) {
 
         flagged: function() {
             var flags = Session.get('flags');
-            if(flags === undefined || !Match.test(flags[this._id], Boolean)) return false;
 
+            if(flags === undefined || !Match.test(flags[this._id], Boolean)) return false;
             return flags[this._id];
         }
     });
@@ -73,13 +74,11 @@ if(Meteor.isClient) {
     Template.story.created = function() {
         var story = this.data;
 
-        var updateTime = function() {
+        var update = function() {
             var time;
             var seconds = Math.floor((new Date() - story.date) / (1000));
-            if(seconds < 10) {
-                return 'Just now!';
-            } else if(seconds < 60) {
-                time = seconds + ' seconds';
+            if(seconds < 60) {
+                return 'Just now';
             } else if(seconds < 60 * 60) {
                 time = Math.floor(seconds/60) + ' minutes';
             } else if(seconds < 60 * 60 * 24) {
@@ -95,20 +94,24 @@ if(Meteor.isClient) {
             return time + ' ago';
         }
 
-        Session.set(story._id, updateTime());
+        Session.set(story._id, update());
 
         Meteor.setInterval((function() {
-            Session.set(story._id, updateTime());
+            Session.set(story._id, update());
         }), 1000);
     };
 
-    $(function() {
-        $('#search').on('keyup', function(e) {
-            if(e.keyCode == 13) {
-                var tags = $(this).val().split(' ');
+    Template.search.events({
+        'keyup input': function(e) {
+            var tags = e.target.value.split(' ');
+            Session.set('tags', tags);
+        }
+    });
 
-                Session.set('current-tags', tags);
-            }
+    Meteor.startup(function() {
+        $(window).scroll(function() {
+            if($(window).scrollTop() > 0) $('header').addClass('scroll');
+            else $('header').removeClass('scroll');
         });
     });
 }
