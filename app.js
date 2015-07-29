@@ -14,7 +14,7 @@ if(Meteor.isClient) {
                 regtags.push(new RegExp(tag, 'i'));
             });
 
-            return Stories.find({$or: [{tags: {$in: regtags}}, {location: {$in: regtags}}]});
+            return Stories.find({$or: [{tags: {$all: regtags}}, {location: {$in: regtags}}]});
         }
     });
 
