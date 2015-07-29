@@ -100,7 +100,10 @@ if(Meteor.isClient) {
     };
 
     Template.search.helpers({
-        search: Session.get('tags').join(' ')
+        search: function() {
+            if(Match.test(Session.get('tags'), undefined)) return '';
+            return Session.get('tags').join(' ');
+        }
     });
 
     Template.search.events({
