@@ -100,11 +100,21 @@ if(Meteor.isClient) {
     };
 
     $(function() {
+        if(Match.test(Session.get('current-tags'), [String])) {
+            console.log('Is array of Strings');
+            var search = '';
+            Session.get('current-tags').forEach(function(entry) {
+                search += entry + ' ';
+            });
+            search = search.slice(0, -1);
+            $('#search').val(search);
+        }
+        
         $('#search').on('keyup', function(e) {
             if(e.keyCode == 13) {
                 var tags = $(this).val().split(' ');
 
-                Session.set('current-tags', tags);
+                Session.setPersistent('current-tags', tags);
             }
         });
     });
