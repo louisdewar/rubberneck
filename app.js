@@ -5,16 +5,13 @@ if(Meteor.isClient) {
     Template.stories.helpers({
         stories: function() {
             var tags = Session.get('current-tags');
-            console.log(tags);
 
             if(typeof(tags) === undefined || tags === [] || !Match.test(tags, [String])) return Stories.find();
             var regtags = Array();
 
             tags.forEach(function(tag) {
                 regtags.push(new RegExp(tag));
-
             });
-            console.log({tags: {$in: regtags}});
             return Stories.find({tags: {$in: regtags}});
         }
     });
@@ -115,7 +112,7 @@ if(Meteor.isClient) {
 
 if(Meteor.isServer) {
     Meteor.publish('stories', function () {
-        return Stories.find();
+        return Stories.find({visable: {$ne: false}}, {fields: {flags: 0, visable: 0}});
     });
 
     Meteor.methods({
@@ -144,11 +141,18 @@ if(Meteor.isServer) {
             Stories.update(id, {$inc: {
                 flags: inc
             }});
+            
+            var doc = Stories.findOne(id);
+            if(doc.flags >= 5 && doc.flags > doc.likes) {
+                Stories.update(id, {$set: {
+                    visable: false
+                }});
+            }
         }
     });
 
     Meteor.startup(function() {
-        Meteor.call('upload', 'Calais', 'img-1.jpg', ['eurotunnel', 'tunnelcrossing'], function(error) {console.log(error)});
+        Meteor.call('upload', 'Calais', 'img-1.jpg', ['eurotunnel', 'tunnelcrossing'], function(error) {});
         Meteor.call('upload', 'Paris', 'img-2.jpg', ['tourdefrance', 'cycling', 'skyteam', 'win'], function(error) {});
         Meteor.call('upload', 'Istanbul', 'img-3.jpg', ['coffin', 'death'], function(error) {});
     });
