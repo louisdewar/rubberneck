@@ -8,7 +8,7 @@
 
 <body>
     <header>
-        <div class="title"><i class="icon ion-navicon"></i></div>
+        <div class="title">Rubberneck</div>
         {{>search}}
     </header>
     {{>stories}}
@@ -17,7 +17,7 @@
 <template name="search">
     <div class="search">
         <i class="icon ion-search"></i>
-        <input type="text" placeholder="Search">
+        <input type="text" placeholder="Search" value="{{search}}">
     </div>
 </template>
 

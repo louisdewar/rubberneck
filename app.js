@@ -8,13 +8,13 @@ if(Meteor.isClient) {
             var tags = Session.get('tags');
 
             if(typeof(tags) === undefined || tags === [] || !Match.test(tags, [String])) return Stories.find();
-            var regtags = [];
+            var regex = [];
 
             tags.forEach(function(tag) {
-                regtags.push(new RegExp(tag, 'i'));
+                regex.push(new RegExp(tag, 'i'));
             });
 
-            return Stories.find({$or: [{tags: {$in: regtags}}, {location: {$in: regtags}}]});
+            return Stories.find({$or: [{tags: {$in: regex}}, {location: {$in: regex}}]});
         }
     });
 
@@ -99,6 +99,10 @@ if(Meteor.isClient) {
         }), 1000);
     };
 
+    Template.search.helpers({
+        search: Session.get('tags').join(' ')
+    });
+
     Template.search.events({
         'keyup input': function(e) {
             var tags = e.target.value.split(' ');
@@ -111,16 +115,6 @@ if(Meteor.isClient) {
             if($(window).scrollTop() > 0) $('header').addClass('scroll');
             else $('header').removeClass('scroll');
         });
-
-        if(Match.test(Session.get('tags'), [String])) {
-            console.log('Is array of Strings');
-            var search = '';
-            Session.get('tags').forEach(function(entry) {
-                search += entry + ' ';
-            });
-            search = search.slice(0, -1);
-            $('#search').val(search);
-        }
     });
 }
 
@@ -169,5 +163,9 @@ if(Meteor.isServer) {
         Meteor.call('upload', 'Calais', 'img-1.jpg', ['eurotunnel', 'tunnelcrossing'], function(error) {});
         Meteor.call('upload', 'Paris', 'img-2.jpg', ['tourdefrance', 'cycling', 'skyteam', 'win'], function(error) {});
         Meteor.call('upload', 'Istanbul', 'img-3.jpg', ['coffin', 'death'], function(error) {});
+
+        var geo = new GeoCoder({geocoderProvider: "google"});
+        var result = geo.reverse(51.4879067, -0.1234005);
+        console.log(result);
     });
 }
