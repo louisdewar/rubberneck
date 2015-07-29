@@ -113,7 +113,6 @@ if(Meteor.isClient) {
         });
 
         if(Match.test(Session.get('tags'), [String])) {
-            console.log('Is array of Strings');
             var search = '';
             Session.get('tags').forEach(function(entry) {
                 search += entry + ' ';
@@ -131,7 +130,7 @@ if(Meteor.isServer) {
 
     Meteor.methods({
         upload: function (location, url, tags) {
-            check(location, String);
+            check(location, {longitude: Number, latitude: Number, country: String, city: String});
             check(url, String);
             check(tags, Match.Optional([String]));
             var date = new Date();
