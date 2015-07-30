@@ -39,8 +39,11 @@ if(Meteor.isClient) {
         },
 
         image: function() {
-            if(Session.get('image')) return Session.get('image');
-            return 'blank.svg';
+            if(Session.get('image')) {
+                $('.image img').css('opacity', '0.5');
+                return Session.get('image');
+            }
+            return 'blank.png';
         }
     });
 
@@ -70,7 +73,7 @@ if(Meteor.isClient) {
             } else {
                 console.log('GEO ERR');
                 return;
-            }            
+            }
         }
     });
 
@@ -155,10 +158,10 @@ if(Meteor.isClient) {
             Session.setPersistent('flags', flags);
             Meteor.call('flag', this._id, flags[this._id]);
         },
-        
+
         'click img': function(e) {
             e.preventDefault();
-            
+
             Session.set('tags', this.tags);
         }
     });
@@ -263,7 +266,7 @@ if(Meteor.isServer) {
             var geo = new GeoCoder();
             var reverse = geo.reverse(latitude, longitude)[0];
             var location = {type: "Point", coordinates: [longitude, latitude], country: reverse.country, city: reverse.city};
-            //check(location, {longitude: Number, latitude: Number, country: String, city: String});    
+            //check(location, {longitude: Number, latitude: Number, country: String, city: String});
 
             check(tags, Match.Optional([String]));
             var date = new Date();
@@ -300,9 +303,5 @@ if(Meteor.isServer) {
         Meteor.call('upload', 1.868956, 50.9518855, 'img-1.jpg', ['eurotunnel', 'tunnelcrossing'], function(error) {});
         Meteor.call('upload', 2.3470599, 48.8588589, 'img-2.jpg', ['tourdefrance', 'cycling', 'skyteam', 'win'], function(error) {});
         Meteor.call('upload', 28.9339069, 41.0131387,'img-3.jpg', ['coffin', 'death'], function(error) {});
-
-        /*var geo = new GeoCoder({geocoderProvider: 'google'});
-        var result = geo.reverse(51.4879067, -0.1234005);
-        console.log(result);*/
     });
 }

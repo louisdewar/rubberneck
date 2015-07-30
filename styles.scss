@@ -2,6 +2,7 @@ $primary: #e95353;
 $secondary: #d84545;
 $tertiary: #c54040;
 $white: #fff;
+$black: #000;
 $light: #f2f0eb;
 $semi-light: #dddbd6;
 $dark: #b3b3b3;
@@ -69,7 +70,6 @@ body {
         }
 
         .search {
-            //position: absolute;
             display: flex;
             align-items: center;
             width: 100%;
@@ -105,12 +105,14 @@ body {
     }
 
     form {
+        visibility: hidden;
         position: fixed;
         top: 0;
         left: 0;
         right: 0;
         background: $primary;
         color: $white;
+        font-size: 0;
         padding: 25px 20px;
         box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.4);
         transition: transform 0.5s ease;
@@ -133,10 +135,10 @@ body {
                 position: relative;
                 margin-top: 20px;
                 font-weight: 600;
-                font-size: 0;
-                background: $secondary;
+                background: $black;
                 color: $white;
                 border-radius: 2px;
+                font-size: 0;
                 width: 100%;
                 text-align: center;
                 border-bottom: 2px solid $tertiary;
@@ -148,6 +150,11 @@ body {
 
                 .buttons {
                     position: absolute;
+                    top: 50%;
+                    left: 0;
+                    right: 0;
+                    margin-top: -13.5px;
+                    font-size: 0;
 
                     .icon {
                         display: inline-block;
