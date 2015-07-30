@@ -50,6 +50,7 @@ if(Meteor.isClient) {
     Template.upload.events({
         'click .icon': function(e) {
             e.preventDefault();
+            Session.set('image', false);
             Session.set('dropdown', false);
         },
 
@@ -64,11 +65,11 @@ if(Meteor.isClient) {
             e.preventDefault();
             if(!Session.get('image')) return;
             var tags = $('#tags').val().split(' ');
-
+            var image = Session.get('image');
             var location;
             if(navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(function(position) {
-                    Meteor.call('upload', position.coords.longitude, position.coords.latitude, Session.get('image'), tags);
+                    Meteor.call('upload', position.coords.longitude, position.coords.latitude, image, tags);
                 });
             } else {
                 console.log('GEO ERR');
@@ -163,6 +164,11 @@ if(Meteor.isClient) {
             e.preventDefault();
 
             Session.set('tags', this.tags);
+        },
+
+        'click .location-tag': function(e) {
+            e.preventDefault();
+            Session.set('tags', [e.target.innerText]);
         }
     });
 
