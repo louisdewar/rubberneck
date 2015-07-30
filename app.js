@@ -111,7 +111,6 @@ if(Meteor.isClient) {
 
             if(Session.get('local') && navigator.geolocation) {
                 if(!Session.get('position')) {
-                    console.log('Test');
                     navigator.geolocation.getCurrentPosition(function(position) {
                         Session.set('position', [position.coords.longitude, position.coords.latitude]);
 
@@ -119,22 +118,21 @@ if(Meteor.isClient) {
                     return Stories.find({});
                 }
 
-                console.log(Session.get('position'))
-                var coords = [Session.get('position').longitude, Session.get('position').latitude];
-                console.log(coords);
-                return Stories.find({$and: [
-                    {location: {$near: {$geometry: {type: 'Point', coordinates: coords, $maxDistance: 500}}}},
-                    {$or: [{tags: {$in: regex}}, {'location.city': {$in: regex}}]}
-                ]});
+                return Stories.find({
+                    $near: {
+                        $geometry: {
+                            type: 'Point',
+                            coordinates: Session.get('position')
+                        },
+                        $maxDistance: 200
+                    }
+                });
 
             } else {
                 return Stories.find({
                     tags: {$all: regex}
                 });
             }
-
-            //if(Session.get('stories')) return Session.get('stories');
-            //return Stories.find({});
         }
     });
 
