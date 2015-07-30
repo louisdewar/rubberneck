@@ -222,6 +222,11 @@ body {
                     font-size: 13px;
                     font-weight: 600;
                     color: $primary;
+
+                    a {
+                        text-decoration: none;
+                        color: $primary;
+                    }
                 }
 
                 .time {

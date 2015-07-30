@@ -70,7 +70,7 @@ if(Meteor.isClient) {
             } else {
                 console.log('GEO ERR');
                 return;
-            }            
+            }
         }
     });
 
@@ -142,11 +142,16 @@ if(Meteor.isClient) {
             Session.setPersistent('flags', flags);
             Meteor.call('flag', this._id, flags[this._id]);
         },
-        
+
         'click img': function(e) {
             e.preventDefault();
-            
+
             Session.set('tags', this.tags);
+        },
+
+        'click .location-tag': function(e) {
+            e.preventDefault();
+            Session.set('tags', [e.target.innerText]);
         }
     });
 
@@ -220,7 +225,7 @@ if(Meteor.isServer) {
             var geo = new GeoCoder();
             var reverse = geo.reverse(latitude, longitude)[0];
             var location = {type: "Point", coordinates: [longitude, latitude], country: reverse.country, city: reverse.city};
-            //check(location, {longitude: Number, latitude: Number, country: String, city: String});    
+            //check(location, {longitude: Number, latitude: Number, country: String, city: String});
 
             check(tags, Match.Optional([String]));
             var date = new Date();
