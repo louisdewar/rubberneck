@@ -66,6 +66,10 @@ if(Meteor.isClient) {
             if(!Session.get('image')) return;
             var tags = $('#tags').val().split(' ');
             var image = Session.get('image');
+
+            $('#tags').val('');
+            Session.set('image', false);
+
             var location;
             if(navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(function(position) {
