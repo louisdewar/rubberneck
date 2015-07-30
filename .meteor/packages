@@ -8,3 +8,4 @@ meteor-platform
 u2622:persistent-session
 jquery
 aldeed:geocoder
+mdg:camera

@@ -36,6 +36,11 @@ if(Meteor.isClient) {
         dropdown: function() {
             if(Session.get('dropdown')) return Session.get('dropdown');
             return false;
+        },
+        
+        image: function() {
+            if(Session.get('image')) return Session.get('image');
+            return '';
         }
     });
 
@@ -43,6 +48,13 @@ if(Meteor.isClient) {
         'click .icon': function(e) {
             e.preventDefault();
             Session.set('dropdown', false);
+        },
+
+        'click .image': function(e) {
+            e.preventDefault();
+            MeteorCamera.getPicture({width: 400, height: 200}, function(err, data) {
+                if(!err) Session.set('image', data);
+            });
         }
     });
 
