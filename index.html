@@ -49,7 +49,7 @@
         <img src="{{url}}">
         <div class="options">
             <div class="meta">
-                <p class="location">{{location.city}}, {{location.country}}</p>
+                <p class="location">{{#if location.city}}{{location.city}},{{/if}} {{location.country}}</p>
                 <p class="time">{{time}}</p>
             </div>
 
