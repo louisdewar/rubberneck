@@ -6,11 +6,11 @@ $light: #f2f0eb;
 $semi-light: #dddbd6;
 $dark: #b3b3b3;
 
-input::-webkit-input-placeholder {
+#search::-webkit-input-placeholder {
     color: $semi-light;
 }
 
-textarea::-webkit-input-placeholder {
+#tags::-webkit-input-placeholder {
     color: $white;
     font-weight: 300;
 }
@@ -182,7 +182,7 @@ body {
             margin-bottom: 10px;
         }
 
-        textarea {
+        input {
             display: block;
             font-family: "Open Sans";
             font-weight: 600;
