@@ -35,9 +35,11 @@ if(Meteor.isClient) {
     Template.upload.helpers({
         dropdown: function() {
             if(Session.get('dropdown')) return Session.get('dropdown');
+
             $('form').one('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', function() {
-                    Session.set('image', false);
-                });
+                Session.set('image', false);
+            });
+
             return false;
         },
 
@@ -46,6 +48,7 @@ if(Meteor.isClient) {
                 $('.image img').css('opacity', '0.5');
                 return Session.get('image');
             }
+
             $('.image img').css('opacity', '1');
             return 'blank.png';
         }
@@ -109,30 +112,9 @@ if(Meteor.isClient) {
                 regex.push(new RegExp(tag, 'i'));
             });
 
-            if(Session.get('local') && navigator.geolocation) {
-                if(!Session.get('position')) {
-                    navigator.geolocation.getCurrentPosition(function(position) {
-                        Session.set('position', [position.coords.longitude, position.coords.latitude]);
-
-                    });
-                    return Stories.find({});
-                }
-
-                return Stories.find({
-                    $near: {
-                        $geometry: {
-                            type: 'Point',
-                            coordinates: Session.get('position')
-                        },
-                        $maxDistance: 200
-                    }
-                });
-
-            } else {
-                return Stories.find({
-                    tags: {$all: regex}
-                });
-            }
+            return Stories.find({
+                tags: {$all: regex}
+            });
         }
     });
 
