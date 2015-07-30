@@ -5,7 +5,7 @@ if(Meteor.isClient) {
 
     Template.header.helpers({
         search: function() {
-            if(Session.get('tags')) return Session.get('tags').join(' ');
+            if(Session.get('tags')) return Session.get('tags').join(' ').toLowerCase();
             return '';
         },
 
@@ -55,6 +55,22 @@ if(Meteor.isClient) {
             MeteorCamera.getPicture({width: 400, height: 200}, function(err, data) {
                 if(!err) Session.set('image', data);
             });
+        },
+
+        'click .button': function(e) {
+            e.preventDefault();
+            if(!Session.get('image')) return;
+            var tags = $('#tags').val().split(' ');
+
+            var location;
+            if(navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    Meteor.call('upload', position.coords.longitude, position.coords.latitude, Session.get('image'), tags);
+                });
+            } else {
+                console.log('GEO ERR');
+                return;
+            }            
         }
     });
 
@@ -82,7 +98,32 @@ if(Meteor.isClient) {
                 regex.push(new RegExp(tag, 'i'));
             });
 
-            return Stories.find({$or: [{tags: {$in: regex}}, {location: {$in: regex}}]});
+            if(Session.get('local') && navigator.geolocation) {
+                if(!Session.get('position')) {
+                    console.log('Test');
+                    navigator.geolocation.getCurrentPosition(function(position) {
+                        Session.set('position', [position.coords.longitude, position.coords.latitude]);
+
+                    });
+                    return Stories.find({});
+                }
+
+                console.log(Session.get('position'))
+                var coords = [Session.get('position').longitude, Session.get('position').latitude];
+                console.log(coords);
+                return Stories.find({$and: [
+                    {location: {$near: {$geometry: {type: 'Point', coordinates: coords, $maxDistance: 500}}}},
+                    {$or: [{tags: {$in: regex}}, {'location.city': {$in: regex}}]}
+                ]});
+
+            } else {
+                return Stories.find({
+                    tags: {$all: regex}
+                });
+            }
+
+            //if(Session.get('stories')) return Session.get('stories');
+            //return Stories.find({});
         }
     });
 
@@ -113,6 +154,12 @@ if(Meteor.isClient) {
 
             Session.setPersistent('flags', flags);
             Meteor.call('flag', this._id, flags[this._id]);
+        },
+        
+        'click img': function(e) {
+            e.preventDefault();
+            
+            Session.set('tags', this.tags);
         }
     });
 
@@ -210,18 +257,22 @@ if(Meteor.isServer) {
     });
 
     Meteor.methods({
-        upload: function (location, url, tags) {
-            check(location, {longitude: Number, latitude: Number, country: String, city: String});
-            check(url, String);
+        upload: function(longitude, latitude, url, tags) {
+            if (Stories.findOne({url: url})) throw new Meteor.Error('URL matches another one in the database. Is it a duplicate?');
+
+            var geo = new GeoCoder();
+            var reverse = geo.reverse(latitude, longitude)[0];
+            var location = {type: "Point", coordinates: [longitude, latitude], country: reverse.country, city: reverse.city};
+            //check(location, {longitude: Number, latitude: Number, country: String, city: String});    
+
             check(tags, Match.Optional([String]));
             var date = new Date();
-
-            if (Stories.findOne({url: url})) throw new Meteor.Error('URL matches another one in the database. Is it a duplicate?');
+            tags.push(location.city, location.country);
             Stories.insert({location: location, url: url, tags: tags, date: date, likes: 0, flags: 0});
 
         },
 
-        like: function (id, liked) {
+        like: function(id, liked) {
             var inc = 1;
             if(!liked) inc = -1;
             Stories.update(id, {$inc: {
@@ -246,9 +297,9 @@ if(Meteor.isServer) {
     });
 
     Meteor.startup(function() {
-        Meteor.call('upload', {latitude: 0, longitude: 0, country: 'France', city: 'Calais'}, 'img-1.jpg', ['eurotunnel', 'tunnelcrossing'], function(error) {});
-        Meteor.call('upload', {latitude: 0, longitude: 0, country: 'France', city: 'Paris'}, 'img-2.jpg', ['tourdefrance', 'cycling', 'skyteam', 'win'], function(error) {});
-        Meteor.call('upload', {latitude: 0, longitude: 0, country: 'Turkey', city: 'Istanbul'}, 'img-3.jpg', ['coffin', 'death'], function(error) {});
+        Meteor.call('upload', 1.868956, 50.9518855, 'img-1.jpg', ['eurotunnel', 'tunnelcrossing'], function(error) {});
+        Meteor.call('upload', 2.3470599, 48.8588589, 'img-2.jpg', ['tourdefrance', 'cycling', 'skyteam', 'win'], function(error) {});
+        Meteor.call('upload', 28.9339069, 41.0131387,'img-3.jpg', ['coffin', 'death'], function(error) {});
 
         /*var geo = new GeoCoder({geocoderProvider: 'google'});
         var result = geo.reverse(51.4879067, -0.1234005);
