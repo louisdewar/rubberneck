@@ -35,6 +35,9 @@ if(Meteor.isClient) {
     Template.upload.helpers({
         dropdown: function() {
             if(Session.get('dropdown')) return Session.get('dropdown');
+            $('form').one('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', function() {
+                    Session.set('image', false);
+                });
             return false;
         },
 
@@ -43,6 +46,7 @@ if(Meteor.isClient) {
                 $('.image img').css('opacity', '0.5');
                 return Session.get('image');
             }
+            $('.image img').css('opacity', '1');
             return 'blank.png';
         }
     });
@@ -50,7 +54,6 @@ if(Meteor.isClient) {
     Template.upload.events({
         'click .icon': function(e) {
             e.preventDefault();
-            Session.set('image', false);
             Session.set('dropdown', false);
         },
 
