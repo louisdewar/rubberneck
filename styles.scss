@@ -35,24 +35,26 @@ body {
     padding-top: 134px;
 
     header {
-        position: absolute;
+        position: fixed;
         top: 0;
         left: 0;
         right: 0;
         background: $primary;
         color: #fff;
         font-size: 28px;
+        box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.1s linear;
+
+
+        &.scroll {
+            box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.4);
+        }
 
         .title {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 20px;
-
-            h1 {
-                font-weight: 600;
-                font-size: 15px;
-            }
 
             .icons {
                 a {
@@ -76,18 +78,6 @@ body {
             padding: 15px 20px;
             background: $white;
             color: $semi-light;
-
-            box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.1);
-            transition: box-shadow 0.1s linear;
-
-            &.scroll {
-                box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.4);
-            }
-
-            &.fix {
-                position: fixed;
-                top: 0;
-            }
 
             .icon {
                 font-size: 19px;
@@ -273,6 +263,10 @@ body {
 
                     &.selected {
                         color: $primary;
+                    }
+
+                    &.share .icon {
+                        font-size: 18px;
                     }
 
                     .icon {

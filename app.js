@@ -88,19 +88,6 @@ if(Meteor.isClient) {
         }
     });
 
-    Template.upload.rendered = function() {
-        $(window).on('load', function() {
-            window.onresize = function() {
-                if(!Session.get('dropdown')) $('form').css('visibility', 'hidden');
-                $('form').css('transform', 'translate3d(0, -' + ($('form').outerHeight() + 8) + 'px, 0)').one('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', function() {
-                    $('form').css('visibility', 'visible');
-                });
-            }
-
-            window.onresize();
-        });
-    }
-
     Template.stories.helpers({
         stories: function() {
             var tags = Session.get('tags');
@@ -210,39 +197,20 @@ if(Meteor.isClient) {
     };
 
     Meteor.startup(function() {
-        var last = 0;
-        var direction = false;
-
         $(window).scroll(function() {
-            var current = $(this).scrollTop();
+            if($(window).scrollTop() > 0) $('header').addClass('scroll');
+            else $('header').removeClass('scroll');
+        });
 
-            if (current > last){
-                if(!direction) {
-                    if($(window).scrollTop() > $('.title').outerHeight()) $('.search').addClass('scroll fix');
-                    else $('.search').removeClass('scroll fix');
-                }
-
-                else {
-                    $('header').css({'position': 'absolute', 'top': $(window).scrollTop});
-                }
+        $(window).on('load', function() {
+            window.onresize = function() {
+                if(!Session.get('dropdown')) $('form').css('visibility', 'hidden');
+                $('form').css('transform', 'translate3d(0, -' + ($('form').outerHeight() + 8) + 'px, 0)').one('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', function() {
+                    $('form').css('visibility', 'visible');
+                });
             }
 
-            else {
-                //if($(window).scrollTop() > $('.title').outerHeight()) $('.search').addClass('scroll fix');
-                //else $('.search').removeClass('scroll fix');
-
-                if(!direction) {
-                    $('header').css('top', ($(window).scrollTop() - $('.title').outerHeight()) + 'px');
-                    $('.search').removeClass('fix');
-                    direction = $(window).scrollTop() - $('.title').outerHeight();
-                }
-
-                else {
-                    if($(window).scrollTop() <= direction) $('header').css({'position': 'fixed', 'top': '0'});
-                }
-            }
-
-            last = current;
+            window.onresize();
         });
     });
 }
