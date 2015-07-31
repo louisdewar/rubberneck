@@ -217,7 +217,7 @@ if(Meteor.isClient) {
 
 if(Meteor.isServer) {
     Meteor.publish('stories', function () {
-        return Stories.find({visable: {$ne: false}}, {fields: {flags: 0, visable: 0}});
+        return Stories.find({visable: {$ne: false}}, {fields: {flags: 0, visable: 0}, sort: {date: -1}});
     });
 
     Meteor.methods({
