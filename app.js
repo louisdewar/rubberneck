@@ -72,18 +72,15 @@ if(Meteor.isClient) {
             if(!Session.get('image')) return;
             var tags = $('#tags').val().split(' ');
             var image = Session.get('image');
-            
+
             $('#tags').val('');
             Session.set('image', false);
             Session.set('dropdown', false);
-            var location;
+
             if(navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(function(position) {
                     Meteor.call('upload', position.coords.longitude, position.coords.latitude, image, tags);
                 });
-            } else {
-                console.log('GEO ERR');
-                return;
             }
         }
     });
@@ -227,14 +224,12 @@ if(Meteor.isServer) {
             var geo = new GeoCoder();
             var reverse = geo.reverse(latitude, longitude)[0];
             if(reverse.country.split(' ').length > 1) reverse.country = reverse.countryCode;
-            var location = {type: "Point", coordinates: [longitude, latitude], country: reverse.country, city: reverse.city};
-            //check(location, {longitude: Number, latitude: Number, country: String, city: String});
+            var location = {coordinates: [longitude, latitude], country: reverse.country, city: reverse.city};
 
             check(tags, Match.Optional([String]));
             var date = new Date();
             tags.push(location.city, location.country);
             Stories.insert({location: location, url: url, tags: tags, date: date, likes: 0, flags: 0});
-
         },
 
         like: function(id, liked) {
@@ -259,11 +254,5 @@ if(Meteor.isServer) {
                 }});
             }
         }
-    });
-
-    Meteor.startup(function() {
-        Meteor.call('upload', 1.868956, 50.9518855, 'img-1.jpg', ['eurotunnel', 'tunnelcrossing'], function(error) {});
-        Meteor.call('upload', 2.3470599, 48.8588589, 'img-2.jpg', ['tourdefrance', 'cycling', 'skyteam', 'win'], function(error) {});
-        Meteor.call('upload', 28.9339069, 41.0131387,'img-3.jpg', ['coffin', 'death'], function(error) {});
     });
 }
