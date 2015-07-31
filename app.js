@@ -258,6 +258,7 @@ if(Meteor.isServer) {
 
             var geo = new GeoCoder();
             var reverse = geo.reverse(latitude, longitude)[0];
+            if(reverse.country.split(' ').length > 1) reverse.country = reverse.countryCode;
             var location = {type: "Point", coordinates: [longitude, latitude], country: reverse.country, city: reverse.city};
             //check(location, {longitude: Number, latitude: Number, country: String, city: String});
 
