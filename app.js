@@ -237,7 +237,7 @@ if(Meteor.isClient) {
 
 if(Meteor.isServer) {
     Meteor.publish('stories', function () {
-        return Stories.find({visable: {$ne: false}}, {fields: {flags: 0, visable: 0}, sort: {date: -1}});
+        return Stories.find({visable: {$ne: false}}, {fields: {flags: 0, visable: 0}, sort: {points: -1}});
     });
 
     Meteor.methods({
@@ -261,6 +261,12 @@ if(Meteor.isServer) {
             Stories.update(id, {$inc: {
                 likes: inc
             }});
+
+            var story = Stories.findOne(id);
+
+            var seconds = Math.floor((new Date() - story.date) / (1000));
+            var points = (Math.log(story.likes + 1) * 100) - (Math.log(seconds) * 10);
+            Stories.update(story._id, {$set: {points: points}});
         },
 
         flag: function(id, flagged) {
@@ -277,5 +283,18 @@ if(Meteor.isServer) {
                 }});
             }
         }
+    });
+
+    Meteor.startup(function() {
+        var task = new ScheduledTask('every 1 minute', function () {
+            console.log('Checking points.');
+            var date = new Date();
+            Stories.find({visable: {$ne: false}}).forEach(function(story) {
+                var seconds = Math.floor((date - story.date) / (1000));
+                var points = (Math.log(story.likes + 1) * 100) - (Math.log(seconds) * 10);
+                Stories.update(story._id, {$set: {points: points}});
+            });
+        });
+        task.start();
     });
 }
