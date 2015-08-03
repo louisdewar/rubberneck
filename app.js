@@ -12,6 +12,16 @@ if(Meteor.isClient) {
         local: function() {
             if(Session.get('local')) return Session.get('local');
             return false;
+        },
+
+        showTitle: function() {
+            if(!Session.get('showTitle')) {
+                $('header').css('transform', 'translate3d(0, -' + $('.title').outerHeight() + 'px, 0)');
+                return true;
+            } else {
+                $('header').css('transform', 'none');
+                return false;
+            }
         }
     });
 
@@ -194,9 +204,22 @@ if(Meteor.isClient) {
     };
 
     Meteor.startup(function() {
+        Session.set('scroll', undefined);
+        Session.set('showHeader', true);
+
         $(window).scroll(function() {
-            if($(window).scrollTop() > 0) $('header').addClass('scroll');
+            var scrollTop = $(window).scrollTop();
+            if(scrollTop > 0) $('header').addClass('scroll');
             else $('header').removeClass('scroll');
+            if(Match.test(Session.get('scroll'), Number)) {
+                if((scrollTop - Session.get('scroll')) > $('.title').outerHeight() * 2) {
+                    Session.set('showTitle', false);
+                    Session.set('scroll', scrollTop);
+                } else if((Session.get('scroll') - scrollTop) > $('.title').outerHeight() / 2) {
+                    Session.set('showTitle', true);
+                    Session.set('scroll', scrollTop);
+                }
+            } else Session.set('scroll', scrollTop);
         });
 
         $(window).on('load', function() {

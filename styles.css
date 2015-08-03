@@ -1,1 +1,240 @@
-#search::-webkit-input-placeholder{color:#dddbd6}#tags::-webkit-input-placeholder{color:#fff;font-weight:300}*{padding:0;margin:0;border:0;outline:0;box-sizing:border-box;-webkit-tap-highlight-color:rgba(255,255,255,0);-webkit-tap-highlight-color:transparent}body{font-family:"Open Sans";font-weight:400;color:#222;padding:20px;background:#f2f0eb;padding-top:134px;width:350px;margin:auto}body header{position:fixed;top:0;left:0;right:0;background:#e95353;color:#fff;font-size:28px;box-shadow:0 0 4px 0 rgba(0,0,0,0.1);transition:box-shadow 0.1s linear;width:350px;margin:auto}body header.scroll{box-shadow:0 0 8px 0 rgba(0,0,0,0.4)}body header .title{display:flex;justify-content:space-between;align-items:center;padding:20px}body header .title .logo{height:25px}body header .title .icons a{text-decoration:none;color:#fff;font-size:28px;margin-left:20px;transition:color 0.1s linear}body header .title .icons a.disabled{color:#c54040}body header .search{display:flex;align-items:center;width:100%;padding:15px 20px;background:#fff;color:#dddbd6}body header .search .icon{font-size:19px}body header .search input{font-family:"Open Sans";color:#b3b3b3;font-size:14px;font-weight:600;width:100%;padding-left:12px}body form{visibility:hidden;position:fixed;top:0;left:0;right:0;background:#e95353;color:#fff;font-size:0;padding:25px 20px;box-shadow:0 0 8px 0 rgba(0,0,0,0.4);transition:transform 0.5s ease;width:350px;margin:auto}body form.down{transform:translate3d(0, 0, 0) !important}body form a{display:inline-block;text-decoration:none;color:#fff}body form a.icon{float:right;font-size:20px}body form a.image{position:relative;margin-top:20px;font-weight:600;background:#000;color:#fff;border-radius:2px;font-size:0;width:100%;text-align:center;border-bottom:2px solid #c54040;overflow:hidden}body form a.image img{width:100%}body form a.image .buttons{position:absolute;top:50%;left:0;right:0;margin-top:-13.5px;font-size:0}body form a.image .buttons .icon{display:inline-block;font-size:20px;vertical-align:middle;margin-right:10px}body form a.image .buttons p{display:inline-block;font-size:12px;vertical-align:middle}body form a.button{margin-top:20px;font-weight:600;font-size:0;background:#fff;color:#e95353;padding:10px 0;border-radius:2px;width:100%;text-align:center;border-bottom:2px solid #c54040;overflow:hidden}body form a.button .icon{display:inline-block;font-size:20px;vertical-align:middle;margin-right:10px}body form a.button p{display:inline-block;font-size:12px;vertical-align:middle}body form h1{font-size:26px;font-weight:300;margin-bottom:10px}body form input{display:block;font-family:"Open Sans";font-weight:600;font-size:12px;background:#d84545;color:#fff;margin-top:20px;padding:20px;width:100%;resize:none;border-radius:2px;border-bottom:2px solid #c54040;overflow:hidden}body article{margin-top:20px;background:#fff;border-radius:2px;overflow:hidden;border-bottom:2px solid #dddbd6;box-shadow:0 0 4px 0 rgba(0,0,0,0.1)}body article img{width:100%;cursor:pointer}body article .options{display:flex;align-items:center;justify-content:space-between;padding:10px 20px}body article .options .meta .location{font-size:13px;font-weight:600;color:#e95353}body article .options .meta .location a{text-decoration:none;color:#e95353}body article .options .meta .time{color:#b3b3b3;font-size:11px;margin-top:2px}body article .options .buttons{font-size:0}body article .options .buttons a{display:inline-block;text-decoration:none;color:#b3b3b3;font-size:13px;margin-left:20px;font-weight:600}body article .options .buttons a.selected{color:#e95353}body article .options .buttons a.share .icon{font-size:18px}body article .options .buttons a .icon{font-size:15px}
+/* line 10, /Users/Louis/Desktop/YRS/rubberneck/styles.scss */
+#search::-webkit-input-placeholder {
+  color: #dddbd6; }
+
+/* line 14, /Users/Louis/Desktop/YRS/rubberneck/styles.scss */
+#tags::-webkit-input-placeholder {
+  color: #fff;
+  font-weight: 300; }
+
+/* line 19, /Users/Louis/Desktop/YRS/rubberneck/styles.scss */
+* {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  outline: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+  -webkit-tap-highlight-color: transparent; }
+
+/* line 29, /Users/Louis/Desktop/YRS/rubberneck/styles.scss */
+body {
+  font-family: "Open Sans";
+  font-weight: 400;
+  color: #222;
+  padding: 20px;
+  background: #f2f0eb;
+  padding-top: 134px; }
+  /* line 37, /Users/Louis/Desktop/YRS/rubberneck/styles.scss */
+  body header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: #e95353;
+    color: #fff;
+    font-size: 28px;
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.2s linear, transform 0.2s linear; }
+    /* line 48, /Users/Louis/Desktop/YRS/rubberneck/styles.scss */
+    body header.scroll {
+      box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.4); }
+    /* line 52, /Users/Louis/Desktop/YRS/rubberneck/styles.scss */
+    body header.showTitle {
+      box-shadow: 0 0 8px 0 black; }
+    /* line 56, /Users/Louis/Desktop/YRS/rubberneck/styles.scss */
+    body header .title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px; }
+      /* line 62, /Users/Louis/Desktop/YRS/rubberneck/styles.scss */
+      body header .title .logo {
+        height: 25px; }
+      /* line 67, /Users/Louis/Desktop/YRS/rubberneck/styles.scss */
+      body header .title .icons a {
+        text-decoration: none;
+        color: #fff;
+        font-size: 28px;
+        margin-left: 20px;
+        transition: color 0.1s linear; }
+        /* line 74, /Users/Louis/Desktop/YRS/rubberneck/styles.scss */
+        body header .title .icons a.disabled {
+          color: #c54040; }
+    /* line 81, /Users/Louis/Desktop/YRS/rubberneck/styles.scss */
+    body header .search {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      padding: 15px 20px;
+      background: #fff;
+      color: #dddbd6; }
+      /* line 89, /Users/Louis/Desktop/YRS/rubberneck/styles.scss */
+      body header .search .icon {
+        font-size: 19px; }
+      /* line 93, /Users/Louis/Desktop/YRS/rubberneck/styles.scss */
+      body header .search input {
+        font-family: "Open Sans";
+        color: #b3b3b3;
+        font-size: 14px;
+        font-weight: 600;
+        width: 100%;
+        padding-left: 12px; }
+  /* line 104, /Users/Louis/Desktop/YRS/rubberneck/styles.scss */
+  body form {
+    visibility: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: #e95353;
+    color: #fff;
+    font-size: 0;
+    padding: 25px 20px;
+    box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.4);
+    transition: transform 0.5s ease; }
+    /* line 117, /Users/Louis/Desktop/YRS/rubberneck/styles.scss */
+    body form.down {
+      transform: translate3d(0, 0, 0) !important; }
+    /* line 121, /Users/Louis/Desktop/YRS/rubberneck/styles.scss */
+    body form a {
+      display: inline-block;
+      text-decoration: none;
+      color: #fff; }
+      /* line 126, /Users/Louis/Desktop/YRS/rubberneck/styles.scss */
+      body form a.icon {
+        float: right;
+        font-size: 20px; }
+      /* line 131, /Users/Louis/Desktop/YRS/rubberneck/styles.scss */
+      body form a.image {
+        position: relative;
+        margin-top: 20px;
+        font-weight: 600;
+        background: #000;
+        color: #fff;
+        border-radius: 2px;
+        font-size: 0;
+        width: 100%;
+        text-align: center;
+        border-bottom: 2px solid #c54040;
+        overflow: hidden; }
+        /* line 144, /Users/Louis/Desktop/YRS/rubberneck/styles.scss */
+        body form a.image img {
+          width: 100%; }
+        /* line 148, /Users/Louis/Desktop/YRS/rubberneck/styles.scss */
+        body form a.image .buttons {
+          position: absolute;
+          top: 50%;
+          left: 0;
+          right: 0;
+          margin-top: -13.5px;
+          font-size: 0; }
+          /* line 156, /Users/Louis/Desktop/YRS/rubberneck/styles.scss */
+          body form a.image .buttons .icon {
+            display: inline-block;
+            font-size: 20px;
+            vertical-align: middle;
+            margin-right: 10px; }
+          /* line 163, /Users/Louis/Desktop/YRS/rubberneck/styles.scss */
+          body form a.image .buttons p {
+            display: inline-block;
+            font-size: 12px;
+            vertical-align: middle; }
+      /* line 171, /Users/Louis/Desktop/YRS/rubberneck/styles.scss */
+      body form a.button {
+        margin-top: 20px;
+        font-weight: 600;
+        font-size: 0;
+        background: #fff;
+        color: #e95353;
+        padding: 10px 0;
+        border-radius: 2px;
+        width: 100%;
+        text-align: center;
+        border-bottom: 2px solid #c54040;
+        overflow: hidden; }
+        /* line 184, /Users/Louis/Desktop/YRS/rubberneck/styles.scss */
+        body form a.button .icon {
+          display: inline-block;
+          font-size: 20px;
+          vertical-align: middle;
+          margin-right: 10px; }
+        /* line 191, /Users/Louis/Desktop/YRS/rubberneck/styles.scss */
+        body form a.button p {
+          display: inline-block;
+          font-size: 12px;
+          vertical-align: middle; }
+    /* line 199, /Users/Louis/Desktop/YRS/rubberneck/styles.scss */
+    body form h1 {
+      font-size: 26px;
+      font-weight: 300;
+      margin-bottom: 10px; }
+    /* line 205, /Users/Louis/Desktop/YRS/rubberneck/styles.scss */
+    body form input {
+      display: block;
+      font-family: "Open Sans";
+      font-weight: 600;
+      font-size: 12px;
+      background: #d84545;
+      color: #fff;
+      margin-top: 20px;
+      padding: 20px;
+      width: 100%;
+      resize: none;
+      border-radius: 2px;
+      border-bottom: 2px solid #c54040;
+      overflow: hidden; }
+  /* line 222, /Users/Louis/Desktop/YRS/rubberneck/styles.scss */
+  body article {
+    margin-top: 20px;
+    background: #fff;
+    border-radius: 2px;
+    overflow: hidden;
+    border-bottom: 2px solid #dddbd6;
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.1); }
+    /* line 230, /Users/Louis/Desktop/YRS/rubberneck/styles.scss */
+    body article img {
+      width: 100%;
+      cursor: pointer; }
+    /* line 235, /Users/Louis/Desktop/YRS/rubberneck/styles.scss */
+    body article .options {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 20px; }
+      /* line 242, /Users/Louis/Desktop/YRS/rubberneck/styles.scss */
+      body article .options .meta .location {
+        font-size: 13px;
+        font-weight: 600;
+        color: #e95353; }
+        /* line 247, /Users/Louis/Desktop/YRS/rubberneck/styles.scss */
+        body article .options .meta .location a {
+          text-decoration: none;
+          color: #e95353; }
+      /* line 253, /Users/Louis/Desktop/YRS/rubberneck/styles.scss */
+      body article .options .meta .time {
+        color: #b3b3b3;
+        font-size: 11px;
+        margin-top: 2px; }
+      /* line 260, /Users/Louis/Desktop/YRS/rubberneck/styles.scss */
+      body article .options .buttons {
+        font-size: 0; }
+        /* line 263, /Users/Louis/Desktop/YRS/rubberneck/styles.scss */
+        body article .options .buttons a {
+          display: inline-block;
+          text-decoration: none;
+          color: #b3b3b3;
+          font-size: 13px;
+          margin-left: 20px;
+          font-weight: 600; }
+          /* line 271, /Users/Louis/Desktop/YRS/rubberneck/styles.scss */
+          body article .options .buttons a.selected {
+            color: #e95353; }
+          /* line 275, /Users/Louis/Desktop/YRS/rubberneck/styles.scss */
+          body article .options .buttons a.share .icon {
+            font-size: 18px; }
+          /* line 279, /Users/Louis/Desktop/YRS/rubberneck/styles.scss */
+          body article .options .buttons a .icon {
+            font-size: 15px; }
+
+/*# sourceMappingURL=styles.css.map */
