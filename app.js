@@ -141,12 +141,6 @@ if(Meteor.isClient) {
             Meteor.call('flag', this._id, flags[this._id]);
         },
 
-        'click img': function(e) {
-            e.preventDefault();
-
-            Session.set('tags', this.tags);
-        },
-
         'click .location-tag': function(e) {
             e.preventDefault();
             Session.set('tags', [e.target.innerText]);
@@ -170,6 +164,36 @@ if(Meteor.isClient) {
 
             if(flags === undefined || !Match.test(flags[this._id], Boolean)) return false;
             return flags[this._id];
+        },
+
+        storyConfigure: function() {
+            return function (hammer, templateInstance) {
+                var hold = new Hammer.Press({
+                    event: 'hold',
+                    threshold: 15,
+                    time: 300
+                });
+                hammer.add(hold);
+                return hammer;
+            }
+        },
+
+        storyGestures: {
+            'swipeleft img': function(e, story) {
+                var width = $(e.target).parent().outerWidth();
+
+                $(e.target).animate({
+                    transform: 'translate3d(-' + width + 'px'
+                }, width / e.velocity);
+            },
+
+            'hold img': function(e, story) {
+                console.log(e);
+                $('.search').animate({
+                    transform: 'translate3d(0, -' + $() + ', 0)'
+                });
+                Session.set('tags', story.data.tags);
+            },
         }
     });
 

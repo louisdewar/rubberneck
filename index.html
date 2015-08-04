@@ -46,12 +46,13 @@
 
 <template name="stories">
     {{#each stories}}
-        {{>story}}
+    {{>story}}
     {{/each}}
 </template>
 
 <template name="story">
-    <article>
+    {{#HammerTouchArea configureCallback=storyConfigure gestureMap=storyGestures}}
+    <article id="{{_id}}">
         <img src="{{url}}">
         <div class="options">
             <div class="meta">
@@ -67,4 +68,5 @@
             </div>
         </div>
     </article>
+    {{/HammerTouchArea}}
 </template>

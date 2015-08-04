@@ -230,6 +230,7 @@ body {
         img {
             width: 100%;
             cursor: pointer;
+            transform: translate3d(0, 0, -1);
         }
 
         .options {
