@@ -44,6 +44,7 @@ body {
         font-size: 28px;
         box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.1);
         transition: box-shadow 0.2s linear, transform 0.2s linear;
+        z-index: 999;
 
         &.scroll {
             box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.4);
@@ -113,6 +114,7 @@ body {
         padding: 25px 20px;
         box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.4);
         transition: transform 0.5s ease;
+        z-index: 1000;
 
         &.down {
             transform: translate3d(0, 0, 0) !important;
@@ -220,6 +222,7 @@ body {
     }
 
     article {
+        position: relative;
         margin-top: 20px;
         background: $white;
         border-radius: 2px;
@@ -229,8 +232,8 @@ body {
 
         img {
             width: 100%;
+            height: auto;
             cursor: pointer;
-            transform: translate3d(0, 0, -1);
         }
 
         .options {
