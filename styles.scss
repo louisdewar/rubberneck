@@ -232,10 +232,26 @@ body {
         border-bottom: 2px solid $semi-light;
         box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.1);
 
+        .hide-img:before {
+            cursor: pointer;
+            font-size: 30px;
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            color: $primary;
+            @include transform(rotateY(90deg));
+            @include transition(transform 100ms linear);
+        }
+
         img {
             width: 100%;
             height: auto;
             cursor: pointer;
+
+            &.hidden + .hide-img:before {
+                @include transform(rotateY(0deg));
+                @include transition(transform 200ms linear 100ms);
+            }
         }
 
         .options {
