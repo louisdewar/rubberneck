@@ -1,4 +1,5 @@
 @import "bourbon/bourbon";
+@import "neat/neat";
 
 $primary: #e95353;
 $secondary: #d84545;
@@ -255,12 +256,13 @@ body {
         }
 
         .options {
-            display: flex;
+            @include outer-container;
             align-items: center;
             justify-content: space-between;
             padding: 10px 20px;
 
             .meta {
+                float: left;
                 .location {
                     font-size: 13px;
                     font-weight: 600;
@@ -281,6 +283,7 @@ body {
 
             .buttons {
                 font-size: 0;
+                float: right;
 
                 a {
                     display: inline-block;
