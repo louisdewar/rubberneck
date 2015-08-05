@@ -57,8 +57,7 @@
         <div class="options">
             <div class="meta">
                 <p class="location">{{#if location.city}}<a href="#" class="location-tag">{{location.city}}</a>,{{/if}} <a href="#" class="location-tag">{{location.country}}</a></p>
-                <p class="time">{{time_ago.ago}} {{time_ago.unit}} ago</p>
-                {{points}}
+                <p class="time">{{time_ago.ago}} {{time_ago.unit}} {{#unless justNow}}ago{{/unless}}</p>
             </div>
 
             <div class="buttons">
