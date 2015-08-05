@@ -224,20 +224,6 @@ body {
         }
     }
 
-        -moz-column-count: 1;
-        -webkit-column-count: 1;
-        column-count: 1;
-
-        @for $i from 2 through 4 {
-            @media screen and (max-width: ((300 * $i)+(($i + 2) * 10))*1px) {
-                & {
-                    -moz-column-count:    $i;
-                    -webkit-column-count: $i;
-                    column-count:         $i;
-                }
-            }
-        }
-
     article {
         position: relative;
         margin-top: 20px;
