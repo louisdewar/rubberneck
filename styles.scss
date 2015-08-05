@@ -223,6 +223,20 @@ body {
         }
     }
 
+        -moz-column-count: 1;
+        -webkit-column-count: 1;
+        column-count: 1;
+
+        @for $i from 2 through 4 {
+            @media screen and (max-width: ((300 * $i)+(($i + 2) * 10))*1px) {
+                & {
+                    -moz-column-count:    $i;
+                    -webkit-column-count: $i;
+                    column-count:         $i;
+                }
+            }
+        }
+
     article {
         position: relative;
         margin-top: 20px;
@@ -255,12 +269,13 @@ body {
         }
 
         .options {
-            display: flex;
+            @include outer-container;
             align-items: center;
             justify-content: space-between;
             padding: 10px 20px;
 
             .meta {
+                float: left;
                 .location {
                     font-size: 13px;
                     font-weight: 600;
@@ -281,6 +296,7 @@ body {
 
             .buttons {
                 font-size: 0;
+                float: right;
 
                 a {
                     display: inline-block;
