@@ -170,7 +170,7 @@ if(Meteor.isClient) {
             return function (hammer, templateInstance) {
                 var hold = new Hammer.Press({
                     event: 'hold',
-                    threshold: 15,
+                    threshold: 5,
                     time: 300
                 });
                 hammer.add(hold);
@@ -181,10 +181,21 @@ if(Meteor.isClient) {
         storyGestures: {
             'swipeleft img': function(e, story) {
                 var width = $(e.target).parent().outerWidth();
-
-                $(e.target).animate({
-                    transform: 'translate3d(-' + width + 'px'
-                }, width / e.velocity);
+                var transform = 'translateX(-' + width + 'px)';
+                var transition = 'transform ' + Math.floor(width/e.velocity) + 'ms linear';
+                $(e.target).css({
+                    '-webkit-transition' : transition,
+                    '-moz-transition'    : transition,
+                    '-ms-transition'     : transition,
+                    '-o-transition'      : transition,
+                    'transition'         : transition,
+                    '-webkit-transform' : transform,
+                    '-moz-transform'    : transform,
+                    '-ms-transform'     : transform,
+                    '-o-transform'      : transform,
+                    'transform'         : transform
+                });
+                $(e.target).addClass('hideimg');
             },
 
             'hold img': function(e, story) {
@@ -251,6 +262,23 @@ if(Meteor.isClient) {
                 if(!Session.get('dropdown')) $('form').css('visibility', 'hidden');
                 $('form').css('transform', 'translate3d(0, -' + ($('form').outerHeight() + 8) + 'px, 0)').one('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', function() {
                     $('form').css('visibility', 'visible');
+                });
+                $('article img.hideimg').each(function(index) {
+                    var width = $(this).parent().outerWidth();
+                    var transform = 'translateX(-' + width + 'px)';
+                    var transition = 'transform 0ms linear';
+                    $(this).css({
+                        '-webkit-transition' : transition,
+                        '-moz-transition'    : transition,
+                        '-ms-transition'     : transition,
+                        '-o-transition'      : transition,
+                        'transition'         : transition,
+                        '-webkit-transform' : transform,
+                        '-moz-transform'    : transform,
+                        '-ms-transform'     : transform,
+                        '-o-transform'      : transform,
+                        'transform'         : transform
+                    });
                 });
             }
 
