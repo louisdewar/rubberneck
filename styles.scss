@@ -88,15 +88,17 @@ body {
         }
 
         .search {
-            display: flex;
             align-items: center;
             width: 100%;
-            padding: 15px 20px;
+            padding: 5px 20px;
             background: $white;
             color: $semi-light;
+            @include outer-container;
 
             .icon {
                 font-size: 19px;
+                display: inline;
+                height: 35px;
             }
 
             input {
@@ -104,8 +106,10 @@ body {
                 color: $dark;
                 font-size: 14px;
                 font-weight: 600;
-                width: 100%;
+                width: 90%;
                 padding-left: 12px;
+                display: inline;
+                height: 38px;
             }
         }
     }
