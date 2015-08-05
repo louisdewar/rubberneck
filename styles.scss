@@ -58,16 +58,21 @@ body {
         }
 
         .title {
-            display: flex;
+            @include outer-container;
+
             justify-content: space-between;
             align-items: center;
             padding: 20px;
 
             .logo {
                 height: 25px;
+                float: left;
+                margin-top: 5px;
             }
 
             .icons {
+                float: right;
+
                 a {
                     text-decoration: none;
                     color: $white;
