@@ -166,6 +166,10 @@ if(Meteor.isClient) {
             return flags[this._id];
         },
 
+        justNow: function() {
+            return this.time_ago.ago === 'Just now';
+        },
+
         storyConfigure: function() {
             return function (hammer, templateInstance) {
                 var hold = new Hammer.Press({
@@ -301,7 +305,8 @@ if(Meteor.isServer) {
         var unit;
         var ago;
         if(seconds < 60) {
-            return 'Just now';
+            ago = 'Just now';
+            unit = '';
         } else if(seconds < 60 * 60) {
             ago = Math.floor(seconds/60);
             unit = 'minutes';
@@ -340,7 +345,10 @@ if(Meteor.isServer) {
             check(tags, Match.Optional([String]));
             var date = new Date();
             tags.push(location.city, location.country);
-            Stories.insert({location: location, url: url, tags: tags, date: date, likes: 0, flags: 0});
+            Stories.insert({location: location, url: url, tags: tags, date: date, likes: 0, flags: 0}, function(err, doc) {
+                if(err) return;
+                calcTime(Stories.findOne(doc));
+            });
         },
 
         like: function(id, liked) {
@@ -380,7 +388,7 @@ if(Meteor.isServer) {
         calcAllPoints.start();
 
         new ScheduledTask('every 1 second', function() {
-            Stories.find({visable: {$ne: false}, $or: [{'time_ago.unit': /second/}, {'time_ago.unit': /minute/}]}).forEach(calcTime)
+            Stories.find({visable: {$ne: false}, $or: [{'time_ago.ago': /just/i}, {'time_ago.unit': /minute/}]}).forEach(calcTime)
         }).start();
         new ScheduledTask('every 5 minutes', function() {
             Stories.find({visable: {$ne: false}, 'time_ago.unit': /hour/}).forEach(calcTime)
