@@ -181,13 +181,13 @@ if(Meteor.isClient) {
         storyGestures: {
             'swipeleft img': function(e, story) {
                 var width = $(e.target).parent().outerWidth();
-                var transform = 'translateX(-' + width + 'px)';
+                var transform = 'translate3d(-' + width + 'px, 0, 0)';
                 var transition = 'transform ' + Math.floor(width/e.velocity) + 'ms linear';
                 $(e.target).css({
-                    '-webkit-transition' : transition,
-                    '-moz-transition'    : transition,
-                    '-ms-transition'     : transition,
-                    '-o-transition'      : transition,
+                    '-webkit-transition' : '-webkit-' + transition,
+                    '-moz-transition'    : '-moz-' + transition,
+                    '-ms-transition'     : '-ms-' + transition,
+                    '-o-transition'      : '-o-' + transition,
                     'transition'         : transition,
                     '-webkit-transform' : transform,
                     '-moz-transform'    : transform,
@@ -268,16 +268,16 @@ if(Meteor.isClient) {
                     var transform = 'translateX(-' + width + 'px)';
                     var transition = 'transform 0ms linear';
                     $(this).css({
-                        '-webkit-transition' : transition,
-                        '-moz-transition'    : transition,
-                        '-ms-transition'     : transition,
-                        '-o-transition'      : transition,
-                        'transition'         : transition,
                         '-webkit-transform' : transform,
                         '-moz-transform'    : transform,
                         '-ms-transform'     : transform,
                         '-o-transform'      : transform,
-                        'transform'         : transform
+                        'transform'         : transform,
+                        '-webkit-transition' : '-webkit-' + transition,
+                        '-moz-transition'    : '-moz-' + transition,
+                        '-ms-transition'     : '-ms-' + transition,
+                        '-o-transition'      : '-o-' + transition,
+                        'transition'         : transition
                     });
                 });
             }
