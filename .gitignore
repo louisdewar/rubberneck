@@ -46,6 +46,6 @@ Temporary Items
 #Application
 #/////////////////
 
-styles.css.map
+*.map
 
 .brackets.json
