@@ -268,6 +268,34 @@ if(Meteor.isServer) {
         Stories.update(id, {$set: {points: points}});
     }
 
+    function calcTime(story) {
+        var seconds = Math.floor((new Date() - story.date) / (1000));
+        var unit;
+        var ago;
+        if(seconds < 60) {
+            return 'Just now';
+        } else if(seconds < 60 * 60) {
+            ago = Math.floor(seconds/60);
+            unit = 'minutes';
+        } else if(seconds < 60 * 60 * 24) {
+            ago = Math.floor(seconds/(60 * 60));
+            unit = 'hours';
+        } else if(seconds < 60 * 60 * 24 * 7) {
+            ago = Math.floor(seconds/(60 * 60 * 24));
+            unit = 'days';
+        } else {
+            ago = Math.floor(seconds/(60 * 60 * 24 * 7));
+            unit = 'weeks';
+        }
+        if(ago === 1) unit = unit.slice(0, -1);
+        Stories.update(story._id, {$set: {
+            time_ago: {
+                ago: ago,
+                unit: unit
+            }
+        }})
+    }
+
     Meteor.publish('stories', function () {
         return Stories.find({visable: {$ne: false}}, {fields: {flags: 0, visable: 0}, sort: {points: -1}});
     });
@@ -322,5 +350,18 @@ if(Meteor.isServer) {
             });
         });
         calcAllPoints.start();
+
+        new ScheduledTask('every 1 second', function() {
+            Stories.find({visable: {$ne: false}, $or: [{'time_ago.unit': /second/}, {'time_ago.unit': /minute/}]}).forEach(calcTime)
+        }).start();
+        new ScheduledTask('every 5 minutes', function() {
+            Stories.find({visable: {$ne: false}, 'time_ago.unit': /hour/}).forEach(calcTime)
+        }).start();
+        new ScheduledTask('every 30 minutes', function() {
+            Stories.find({visable: {$ne: false}, 'time_ago.unit': /day/}).forEach(calcTime)
+        }).start();
+        new ScheduledTask('every 6 hours', function() {
+            Stories.find({visable: {$ne: false}, 'time_ago.unit': /week/}).forEach(calcTime)
+        }).start();
     });
 }
