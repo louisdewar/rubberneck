@@ -198,8 +198,7 @@ if(Meteor.isClient) {
                     '-ms-transform'     : transform,
                     '-o-transform'      : transform,
                     'transform'         : transform
-                });
-                $(e.target).addClass('hideimg');
+                }).addClass('hidden');
             },
 
             'hold img': function(e, story) {
@@ -209,6 +208,18 @@ if(Meteor.isClient) {
                 });
                 Session.set('tags', story.data.tags);
             },
+
+            'tap .hide-img': function(e, story) {
+                var transform = 'translate3d(0, 0, 0)';
+
+                $(e.target).prev().removeClass('hidden').css({
+                    '-webkit-transform' : transform,
+                    '-moz-transform'    : transform,
+                    '-ms-transform'     : transform,
+                    '-o-transform'      : transform,
+                    'transform'         : transform
+                });
+            }
         }
     });
 
